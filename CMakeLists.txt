@@ -1,4 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (Mandelbrot)
+find_package( OpenCV REQUIRED )
 file (GLOB SOURCES "src/*.cpp")
 add_executable (bin/Mandelbrot ${SOURCES})
+target_link_libraries( bin/Mandelbrot ${OpenCV_LIBS} )
