@@ -1,4 +1,5 @@
 #include "MandelbrotGenerator.hpp"
+#include <iostream>
 
 MandelbrotGenerator::MandelbrotGenerator(double xMin, double xMax, double yMin, double yMax)
 {
@@ -34,21 +35,26 @@ bool MandelbrotGenerator::inMandelbrot(double x, double y)
 }
 
 
-void MandelbrotGenerator::generateSet(std::string *str)
+std::vector<std::vector<bool>> MandelbrotGenerator::generateSet()
 {
+  std::vector<std::vector<bool>> result (STEP, std::vector<bool> (STEP, false));
   double xStep = (this->xMax - this->xMin)/STEP;
   double yStep = (this->yMax - this->yMin)/STEP;
 
+  int xCount = 0;
+  int yCount = 0;
   for (double x = this->xMin; x < this->xMax; x=x+xStep)
   {
+    yCount = 0;
     for (double y = this->yMin; y < this->yMax; y=y+yStep)
     {
       if (inMandelbrot(x, y))
       {
-        str->append(".");
+        result[yCount][xCount] = true;
       }
-        str->append(" ");
+      yCount++;
     }
-    str->append("\n");
+    xCount++;
   }
+  return result;
 }

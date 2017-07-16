@@ -1,8 +1,9 @@
 #include <complex>
+#include <vector>
 
 #define HORIZON 2.0
 #define MAX_ITERATIONS 1000
-#define STEP 50
+#define STEP 1000
 
 class MandelbrotGenerator
 {
@@ -16,5 +17,5 @@ class MandelbrotGenerator
   public:
     MandelbrotGenerator(double, double, double, double);
     MandelbrotGenerator();
-    void generateSet(std::string *);
+    std::vector<std::vector<bool>> generateSet();
 };
