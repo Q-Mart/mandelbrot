@@ -7,17 +7,19 @@
 
 class MandelbrotGenerator
 {
-  double xMin;
-  double xMax;
-  double yMin;
-  double yMax;
+  float xMin;
+  float xMax;
+  float yMin;
+  float yMax;
 
-  bool inMandelbrot(double, double);
+  int iterationNumber=0;
+
+  bool inMandelbrot(float, float);
 
   public:
-    std::vector<std::vector<bool>> set;
+    std::vector<std::vector<int>> set;
 
-    MandelbrotGenerator(double, double, double, double);
+    MandelbrotGenerator(float, float, float, float);
     MandelbrotGenerator();
     void generateSet();
 };

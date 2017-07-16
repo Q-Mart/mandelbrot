@@ -6,7 +6,7 @@ ImageWriter::ImageWriter(std::string filename)
   this->filename = filename;
 }
 
-int ImageWriter::writeSet(std::vector<std::vector<bool>> &set)
+int ImageWriter::writeSet(std::vector<std::vector<int>> &set)
 {
   if (img.empty())
   {
@@ -23,9 +23,9 @@ int ImageWriter::writeSet(std::vector<std::vector<bool>> &set)
   {
     for (int x=0; x<1000; x++)
     {
-      if (set[y][x] == true)
+      if (set[y][x] > 0)
       {
-        img.col(x).row(y) = WHITE;
+        img.col(x).row(y) = cv::Scalar(0,0,set[y][x]);
       }
     }
   }

@@ -12,5 +12,5 @@ class ImageWriter
   public:
     ImageWriter();
     ImageWriter(std::string);
-    int writeSet(std::vector<std::vector<bool>> &set);
+    int writeSet(std::vector<std::vector<int>> &set);
 };

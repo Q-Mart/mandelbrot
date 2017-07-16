@@ -1,9 +1,9 @@
 #include "MandelbrotGenerator.hpp"
 #include <iostream>
 
-MandelbrotGenerator::MandelbrotGenerator(double xMin, double xMax, double yMin, double yMax)
+MandelbrotGenerator::MandelbrotGenerator(float xMin, float xMax, float yMin, float yMax)
 {
-  set = std::vector<std::vector<bool>> (STEP, std::vector<bool> (STEP, false));
+  set = std::vector<std::vector<int>> (STEP, std::vector<int> (STEP, 0));
   this->xMin = xMin;
   this->xMax = xMax;
   this->yMin = yMin;
@@ -12,7 +12,7 @@ MandelbrotGenerator::MandelbrotGenerator(double xMin, double xMax, double yMin, 
 
 MandelbrotGenerator::MandelbrotGenerator()
 { 
-  set = std::vector<std::vector<bool>> (STEP, std::vector<bool> (STEP, false));
+  set = std::vector<std::vector<int>> (STEP, std::vector<int> (STEP, false));
   xMin = -2.0;
   xMax = 0.5;
   yMin = -1.25;
@@ -23,9 +23,9 @@ std::ostream& operator<<(std::ostream& strm, const MandelbrotGenerator& gen)
 {
   for (auto row : gen.set)
   {
-    for (bool element: row)
+    for (int element: row)
     {
-      element ? strm << '.' : strm << ' ';
+      element  == 0 ? strm << '.' : strm << ' ';
     }
     strm << '\n';
   }
@@ -33,12 +33,12 @@ std::ostream& operator<<(std::ostream& strm, const MandelbrotGenerator& gen)
 }
 
 
-bool MandelbrotGenerator::inMandelbrot(double x, double y)
+bool MandelbrotGenerator::inMandelbrot(float x, float y)
 {
-  std::complex<double> c (x, y);
-  std::complex<double> z = c;
+  std::complex<float> c (x, y);
+  std::complex<float> z = c;
 
-  for (int n = 0; n < MAX_ITERATIONS; n++)
+  for (iterationNumber = 0; iterationNumber < MAX_ITERATIONS; iterationNumber++)
   {
     if (std::abs(z) > HORIZON)
     {
@@ -52,19 +52,19 @@ bool MandelbrotGenerator::inMandelbrot(double x, double y)
 
 void MandelbrotGenerator::generateSet()
 {
-  double xStep = (this->xMax - this->xMin)/STEP;
-  double yStep = (this->yMax - this->yMin)/STEP;
+  float xStep = (this->xMax - this->xMin)/STEP;
+  float yStep = (this->yMax - this->yMin)/STEP;
 
   int xCount = 0;
   int yCount = 0;
-  for (double x = this->xMin; x < this->xMax; x=x+xStep)
+  for (float x = this->xMin; x < this->xMax; x=x+xStep)
   {
     yCount = 0;
-    for (double y = this->yMin; y < this->yMax; y=y+yStep)
+    for (float y = this->yMin; y < this->yMax; y=y+yStep)
     {
-      if (inMandelbrot(x, y))
+      if (!inMandelbrot(x, y))
       {
-        this->set[yCount][xCount] = true;
+        this->set[yCount][xCount] = iterationNumber;
       }
       yCount++;
     }
