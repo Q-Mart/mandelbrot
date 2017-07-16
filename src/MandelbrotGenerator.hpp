@@ -1,9 +1,9 @@
 #include <complex>
 #include <vector>
+#include "Common.hpp"
 
 #define HORIZON 2.0
 #define MAX_ITERATIONS 1000
-#define STEP 1000
 
 class MandelbrotGenerator
 {
@@ -15,7 +15,11 @@ class MandelbrotGenerator
   bool inMandelbrot(double, double);
 
   public:
+    std::vector<std::vector<bool>> set;
+
     MandelbrotGenerator(double, double, double, double);
     MandelbrotGenerator();
-    std::vector<std::vector<bool>> generateSet();
+    void generateSet();
 };
+
+std::ostream& operator<<(std::ostream&, const MandelbrotGenerator&);

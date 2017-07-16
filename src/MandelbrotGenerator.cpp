@@ -3,6 +3,7 @@
 
 MandelbrotGenerator::MandelbrotGenerator(double xMin, double xMax, double yMin, double yMax)
 {
+  set = std::vector<std::vector<bool>> (STEP, std::vector<bool> (STEP, false));
   this->xMin = xMin;
   this->xMax = xMax;
   this->yMin = yMin;
@@ -10,11 +11,25 @@ MandelbrotGenerator::MandelbrotGenerator(double xMin, double xMax, double yMin, 
 }
 
 MandelbrotGenerator::MandelbrotGenerator()
-{
+{ 
+  set = std::vector<std::vector<bool>> (STEP, std::vector<bool> (STEP, false));
   xMin = -2.0;
   xMax = 0.5;
   yMin = -1.25;
   yMax = 1.25;
+}
+
+std::ostream& operator<<(std::ostream& strm, const MandelbrotGenerator& gen)
+{
+  for (auto row : gen.set)
+  {
+    for (bool element: row)
+    {
+      element ? strm << '.' : strm << ' ';
+    }
+    strm << '\n';
+  }
+  return strm;
 }
 
 
@@ -35,9 +50,8 @@ bool MandelbrotGenerator::inMandelbrot(double x, double y)
 }
 
 
-std::vector<std::vector<bool>> MandelbrotGenerator::generateSet()
+void MandelbrotGenerator::generateSet()
 {
-  std::vector<std::vector<bool>> result (STEP, std::vector<bool> (STEP, false));
   double xStep = (this->xMax - this->xMin)/STEP;
   double yStep = (this->yMax - this->yMin)/STEP;
 
@@ -50,11 +64,10 @@ std::vector<std::vector<bool>> MandelbrotGenerator::generateSet()
     {
       if (inMandelbrot(x, y))
       {
-        result[yCount][xCount] = true;
+        this->set[yCount][xCount] = true;
       }
       yCount++;
     }
     xCount++;
   }
-  return result;
 }
