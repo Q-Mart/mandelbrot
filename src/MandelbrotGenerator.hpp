@@ -1,5 +1,4 @@
 #include <complex>
-#include <vector>
 #include "Common.hpp"
 
 #define HORIZON 2.0
