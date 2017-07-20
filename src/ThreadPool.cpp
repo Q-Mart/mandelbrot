@@ -60,12 +60,12 @@ void Worker::operator()()
   }
 }
 
-int main()
-{
-  ThreadPool tp(10);
+/* int main() */
+/* { */
+/*   ThreadPool tp(10); */
 
-  for (int i=0; i<10; i++)
-  {
-    tp.enque([i]{ std::cout << "hello from " << i << std::endl; });
-  }
-}
+/*   for (int i=0; i<10; i++) */
+/*   { */
+/*     tp.enque([i]{ std::cout << "hello from " << i << std::endl; }); */
+/*   } */
+/* } */
