@@ -1,4 +1,5 @@
 #include "MandelbrotGenerator.hpp"
+#include "ThreadPool.hpp"
 #include <iostream>
 
 MandelbrotGenerator::MandelbrotGenerator(float xMin, float xMax, float yMin, float yMax)
@@ -33,25 +34,27 @@ std::ostream& operator<<(std::ostream& strm, const MandelbrotGenerator& gen)
 }
 
 
-bool MandelbrotGenerator::inMandelbrot(float x, float y)
+int MandelbrotGenerator::calcColour(float x, float y)
 {
   std::complex<float> c (x, y);
   std::complex<float> z = c;
 
-  for (iterationNumber = 0; iterationNumber < MAX_ITERATIONS; iterationNumber++)
+  for (int iterationNumber = 0; iterationNumber < MAX_ITERATIONS; iterationNumber++)
   {
     if (std::abs(z) > HORIZON)
     {
-      return false;
+      //we are not in the Mandelbrot set
+      return iterationNumber;
     }
     z = (z*z) + c;
   }
-  return true;
+  return 0;
 }
 
 
 void MandelbrotGenerator::generateSet()
 {
+  ThreadPool pool(NUM_THREADS);
   float xStep = (this->xMax - this->xMin)/STEP;
   float yStep = (this->yMax - this->yMin)/STEP;
 
@@ -62,10 +65,9 @@ void MandelbrotGenerator::generateSet()
     yCount = 0;
     for (float y = this->yMin; y < this->yMax; y=y+yStep)
     {
-      if (!inMandelbrot(x, y))
-      {
-        this->set[yCount][xCount] = iterationNumber;
-      }
+      pool.enque( [this, xCount, yCount, x, y] {
+        this->set[yCount][xCount] = calcColour(x,y);
+      });
       yCount++;
     }
     xCount++;

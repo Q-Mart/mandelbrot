@@ -11,9 +11,7 @@ class MandelbrotGenerator
   float yMin;
   float yMax;
 
-  int iterationNumber=0;
-
-  bool inMandelbrot(float, float);
+  int calcColour(float, float);
 
   public:
     std::vector<std::vector<int>> set;

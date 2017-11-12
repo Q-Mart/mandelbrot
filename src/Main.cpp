@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
 
   gen.generateSet();
 
-  std::cout << gen;
-
   auto iw = ImageWriter();
   return iw.writeSet(gen.set);
 }
